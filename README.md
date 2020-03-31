@@ -1,4 +1,4 @@
-
+[![Build status](https://travis-ci.org/pujamudaliar/puja_minio.svg?branch=master)](https://travis-ci.org/pujamudaliar/puja_minio)
 # MinIO Quickstart Guide
 [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io) [![Docker Pulls](https://img.shields.io/docker/pulls/minio/minio.svg?maxAge=604800)](https://hub.docker.com/r/minio/minio/)
 
