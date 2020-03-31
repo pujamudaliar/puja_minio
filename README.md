@@ -1,4 +1,4 @@
-# STATUS
+# CODE QUALITY STATUS
 [![Build status](https://travis-ci.org/pujamudaliar/puja_minio.svg?branch=master)](https://travis-ci.org/pujamudaliar/puja_minio) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=pujamudaliar_puja_minio&metric=alert_status)](https://sonarcloud.io/dashboard?id=pujamudaliar_puja_minio) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a2bc3645cd7b403785aac47831b4a161)](https://www.codacy.com/manual/pujamudaliar/puja_minio?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pujamudaliar/puja_minio&amp;utm_campaign=Badge_Grade)
 # MinIO Quickstart Guide
 [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io) [![Docker Pulls](https://img.shields.io/docker/pulls/minio/minio.svg?maxAge=604800)](https://hub.docker.com/r/minio/minio/)
