@@ -1,4 +1,4 @@
-go_import_path: github.com/minio/minio
+go_import_path: github.com/pujamudaliar/puja_minio
 
 language: go
 
