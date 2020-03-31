@@ -1,0 +1,57 @@
+name: coverity-scan
+on:
+  schedule:
+    - cron: '0 18 * * *' # Daily at 18:00 UTC
+
+jobs:
+  latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install libraries
+        run: |
+          set -x
+          sudo sed /etc/apt/sources.list -e "s/^# deb-src/deb-src/g" -i
+		  
+      - name: Checkout puja minio
+        run: |
+          git clone --depth=1 https://github.com/pujamudaliar/puja-test .
+          git submodule update --init --recursive
+      
+      - name: Install RPM packages dependencies
+        run: ./install-deps.sh
+        
+      - name: Download Coverity Build Tool
+        run: |
+          wget -q https://scan.coverity.com/download/cxx/linux64 --post-data "token=$TOKEN&project=cephproject" -O cov-analysis-linux64-2019.03.tar.gz
+          mkdir cov-analysis-linux64
+          tar xzf cov-analysis-linux64-2019.03.tar.gz --strip 1 -C cov-analysis-linux64
+        env:
+          TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
+
+      - name: Fixed world writable dirs
+        run: |
+          chmod go-w $HOME
+          sudo chmod -R go-w /usr/share   
+        
+      - name: Build with cov-build
+        run: |
+          export PATH=`pwd`/cov-analysis-linux64/bin:$PATH
+          rm -rf build
+          ARGS="-DCMAKE_BUILD_TYPE=RelWithDebInfo" ./do_cmake.sh
+          cd build
+          cov-build --dir cov-int make -j$(nproc)
+          
+      - name: Submit the result to Coverity Scan
+        run: |
+          version=`git describe`
+          tar czvf cephproject.tgz cov-int
+          curl \
+            --form project=cephproject \
+            --form token=$TOKEN \
+            --form email=puja.mudaliar@seagate.com \
+            --form file=@cephproject.tgz \
+            --form version="$version" \
+            --form description="Automated ceph build from `hostname`" \
+            https://scan.coverity.com/builds?project=cephproject
+        env:
+          TOKEN: ${{ secrets.COVERITY_SCAN_TOKEN }}
